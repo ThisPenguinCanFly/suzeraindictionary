@@ -1,0 +1,112 @@
+{
+  "word_entries": [
+    {
+      "sordish": "leren",
+      "english": "to learn",
+      "pronunciation": "/leren/",
+      "origin": "north-merkopan",
+      "source": "reconstruction",
+      "part_of_speech": "verb",
+      "gender": null,
+      "root": "ler-",
+      "associated_words": {
+        "learn": "https://en.wiktionary.org/wiki/learn",
+        "lernen": "https://en.wiktionary.org/wiki/Lernen"
+      },
+      "definition": "(1) to gain knowledge or understanding of or skill in by study, instruction, or experience"
+    },
+    {
+      "sordish": "blewi",
+      "english": "blue",
+      "pronunciation": "/blewi/",
+      "origin": "north-merkopan",
+      "source": "reconstruction",
+      "part_of_speech": "noun",
+      "gender": null,
+      "root": "blew-",
+      "associated_words": {
+        "*blewaz": "https://en.wiktionary.org/wiki/Reconstruction:Proto-Germanic/bl%C4%93waz"
+      },
+      "definition": "(1) The hue of that portion of the visible spectrum lying between green and indigo, evoked in the human observer by radiant energy with wavelengths of approximately 420 to 490 nanometers; any of a group of colors that may vary in lightness and saturation, whose hue is that of a clear daytime sky; one of the additive or light primaries; one of the psychological primary hues."
+    },
+    {
+      "sordish": "porpura",
+      "english": "purple",
+      "pronunciation": "/porpura/",
+      "origin": "markian",
+      "source": "reconstruction",
+      "part_of_speech": "noun",
+      "gender": null,
+      "root": "porpur-",
+      "associated_words": {
+        "purpura": "https://en.wiktionary.org/wiki/purpura"
+      },
+      "definition": "(1) Any of a group of colors with a hue between that of violet and red."
+    },
+    {
+      "sordish": "wisce",
+      "english": "to know",
+      "pronunciation": "/wisce/",
+      "origin": "sordish",
+      "source": "dev dict",
+      "part_of_speech": "verb",
+      "gender": null,
+      "root": "",
+      "associated_words": {
+      },
+      "definition": ""
+    },
+    {
+      "sordish": "instre",
+      "english": "to educate",
+      "pronunciation": "/instre/",
+      "origin": "sordish",
+      "source": "dev dict",
+      "part_of_speech": "verb",
+      "gender": null,
+      "root": "",
+      "associated_words": {
+      },
+      "definition": ""
+    },
+    {
+      "sordish": "erdgaud",
+      "english": "to enjoy",
+      "pronunciation": "/erdgaud/",
+      "origin": "sordish",
+      "source": "pyrde dict",
+      "part_of_speech": "verb",
+      "gender": null,
+      "root": "",
+      "associated_words": {
+      },
+      "definition": ""
+    },
+    {
+      "sordish": "cokwuo",
+      "english": "to enjoy",
+      "pronunciation": "/cokwuo/",
+      "origin": "markian",
+      "source": "pyrde dict",
+      "part_of_speech": "verb",
+      "gender": null,
+      "root": "",
+      "associated_words": {
+      },
+      "definition": ""
+    },
+    {
+      "sordish": "passa",
+      "english": "to pass",
+      "pronunciation": "/passa/",
+      "origin": "markian",
+      "source": "pyrde dict",
+      "part_of_speech": "verb",
+      "gender": null,
+      "root": "",
+      "associated_words": {
+      },
+      "definition": ""
+    }
+  ]
+}
