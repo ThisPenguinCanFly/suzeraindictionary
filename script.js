@@ -1,55 +1,45 @@
-class ValdorianDictionary {
-  constructor() {
-    this.searchInput = document.getElementById("searchInput")
-    this.clearBtn = document.getElementById("clearBtn")
-    this.showAllBtn = document.getElementById("showAllBtn")
-    this.results = document.getElementById("results")
-    this.noResults = document.getElementById("noResults")
-    this.resultCount = document.getElementById("resultCount")
+class ConlangDictionary {
+  constructor(language, config) {
+    this.language = language
+    this.config = config
 
-    this.originalWelcomeHTML = this.results.innerHTML;
+    this.searchInput = document.getElementById(config.searchInputId)
+    this.clearBtn = document.getElementById(config.clearBtnId)
+    this.showAllBtn = document.getElementById(config.showAllBtnId)
+    this.results = document.getElementById(config.resultsId)
+    this.noResults = document.getElementById(config.noResultsId)
+    this.resultCount = document.getElementById(config.resultCountId)
 
-    this.dictionaryData = []; // keep dictionary inside the class
-    this.loadDictionary(); 
+    this.originalWelcomeHTML = this.results.innerHTML
+    this.dictionaryData = []
 
+    this.loadDictionary(config.dataSource)
     this.initializeEventListeners()
-    this.showWelcomeMessage()
     this.updateButtonVisibility()
-    
   }
 
-  async loadDictionary() {
-    try {
-      const response = await fetch("dictionary.json");
-      const data = await response.json();
-
-      // Normalize all entries
-      this.dictionaryData = data.word_entries.map(rawEntry =>
-        this.normalizeEntry(rawEntry)
-      );
-
-      // Show welcome screen
-      this.showWelcomeMessage();
-      this.updateButtonVisibility();
-    } catch (error) {
-      console.error("Error loading dictionary:", error);
+  loadDictionary(dataSource) {
+    if (dataSource && dataSource.word_entries) {
+      this.dictionaryData = dataSource.word_entries.map((entry) => this.normalizeEntry(entry))
     }
+    this.showWelcomeMessage()
+    this.updateButtonVisibility()
   }
 
   normalizeEntry(rawEntry) {
+    const wordKey = this.language === "sordish" ? "sordish" : "rizian"
     return {
-      sordish: rawEntry.sordish,
-      english: rawEntry.english,
-      pronunciation: rawEntry.pronunciation, // handle typo
-      partOfSpeech: rawEntry.part_of_speech,
+      word: rawEntry[wordKey] || rawEntry.word || "",
+      english: rawEntry.english || "",
+      pronunciation: rawEntry.pronunciation || "",
+      partOfSpeech: rawEntry.part_of_speech || "",
       definition: rawEntry.definition || "",
-      origin: rawEntry.origin,
-      source: rawEntry.source,
-      verbType: rawEntry.verb_type,
-      gender: rawEntry.gender,
-      root: rawEntry.root,
-      associatedWords: rawEntry.associated_words
-    };
+      origin: rawEntry.origin || "",
+      verbType: rawEntry.verb_type || "",
+      gender: rawEntry.gender || "",
+      root: rawEntry.root || "",
+      associatedWords: rawEntry.associated_words || {},
+    }
   }
 
   initializeEventListeners() {
@@ -61,7 +51,6 @@ class ValdorianDictionary {
       this.clearSearch()
     })
 
-    // Added event listener for show all button
     this.showAllBtn.addEventListener("click", () => {
       this.showAllWords()
     })
@@ -90,23 +79,22 @@ class ValdorianDictionary {
   }
 
   searchDictionary(query) {
-    const lowerQuery = query.toLowerCase();
-
+    const lowerQuery = query.toLowerCase()
     return this.dictionaryData.filter((entry) => {
       return (
-        entry.sordish.toLowerCase().includes(lowerQuery) ||
+        entry.word.toLowerCase().includes(lowerQuery) ||
         entry.english.toLowerCase().includes(lowerQuery) ||
         entry.definition.toLowerCase().includes(lowerQuery) ||
         entry.pronunciation.toLowerCase().includes(lowerQuery)
-      );
-    });
+      )
+    })
   }
 
   showAllWords() {
-    this.searchInput.value = "";
-    this.displayResults(this.dictionaryData, "");
-    this.updateResultCount(this.dictionaryData.length);
-    this.updateButtonVisibility(false);
+    this.searchInput.value = ""
+    this.displayResults(this.dictionaryData, "")
+    this.updateResultCount(this.dictionaryData.length)
+    this.updateButtonVisibility(false)
   }
 
   displayResults(results, query) {
@@ -131,47 +119,46 @@ class ValdorianDictionary {
     const headerDiv = document.createElement("div")
     headerDiv.className = "word-header"
 
-    const sordishWord = document.createElement("span")
-    sordishWord.className = "sordish-word"
-    sordishWord.innerHTML = this.highlightMatch(entry.sordish, query)
+    const conlangWord = document.createElement("span")
+    conlangWord.className = `conlang-word ${this.language}`
+    conlangWord.innerHTML = this.highlightMatch(entry.word, query)
 
-    // Add tooltip if root exists
     if (entry.root) {
       const tooltip = document.createElement("span")
       tooltip.className = "root-tooltip"
       tooltip.textContent = `Root: ${entry.root}`
-      sordishWord.appendChild(tooltip)
+      conlangWord.appendChild(tooltip)
     }
 
     const pronunciation = document.createElement("span")
     pronunciation.className = "pronunciation"
-    pronunciation.innerHTML = `${this.highlightMatch(entry.pronunciation, query)}`
+    pronunciation.innerHTML = this.highlightMatch(entry.pronunciation, query)
 
     const partOfSpeech = document.createElement("span")
-    partOfSpeech.className = "part-of-speech " + entry.partOfSpeech.toLowerCase()
+    partOfSpeech.className = `part-of-speech ${entry.partOfSpeech.toLowerCase()}`
     partOfSpeech.textContent = entry.partOfSpeech
 
-    const origin = document.createElement("span")
-    origin.className = "origin " + entry.origin.toLowerCase()
-    origin.textContent = entry.origin ? `${entry.origin}` : ""
-
-    let declensionBtn;
-
-    if (entry.partOfSpeech.toLowerCase() === "verb") {
-      declensionBtn = document.createElement("button");
-      declensionBtn.className = "declension-btn";
-      declensionBtn.textContent = "declension";
-
-      declensionBtn.addEventListener("click", () => {
-        this.openDeclensionModal(entry);
-      });
-    }
-    headerDiv.appendChild(sordishWord)
+    headerDiv.appendChild(conlangWord)
     headerDiv.appendChild(pronunciation)
     headerDiv.appendChild(partOfSpeech)
-    headerDiv.appendChild(origin)
 
-    if (declensionBtn) headerDiv.appendChild(declensionBtn);
+    if (entry.origin) {
+      const origin = document.createElement("span")
+      origin.className = `origin ${entry.origin.toLowerCase().replace(/\s+/g, "-")}`
+      origin.textContent = entry.origin
+      headerDiv.appendChild(origin)
+    }
+
+    // Add declension button for verbs (Sordish only for now)
+    if (this.language === "sordish" && entry.partOfSpeech.toLowerCase() === "verb") {
+      const declensionBtn = document.createElement("button")
+      declensionBtn.className = "declension-btn"
+      declensionBtn.textContent = "declension"
+      declensionBtn.addEventListener("click", () => {
+        this.openDeclensionModal(entry)
+      })
+      headerDiv.appendChild(declensionBtn)
+    }
 
     const englishTranslation = document.createElement("div")
     englishTranslation.className = "english-translation"
@@ -181,197 +168,154 @@ class ValdorianDictionary {
     definition.className = "definition"
     definition.innerHTML = this.highlightMatch(entry.definition, query)
 
-    const watermark = document.createElement("img")
-    watermark.src = "SLI-logo-black.svg"
-    watermark.className = "watermark"
-
     entryDiv.appendChild(headerDiv)
     entryDiv.appendChild(englishTranslation)
     entryDiv.appendChild(definition)
-    entryDiv.appendChild(watermark)
-
-    if (entry.associatedWords && Object.keys(entry.associatedWords).length > 0) {
-      const associatedDiv = document.createElement("div")
-      associatedDiv.className = "associated-words"
-      associatedDiv.innerHTML = "<strong>Associated Words:</strong> "
-
-      Object.entries(entry.associatedWords).forEach(([word, url], index) => {
-        const link = document.createElement("a")
-        link.href = url
-        link.textContent = word
-        link.target = "_blank"
-        link.rel = "noopener noreferrer"
-
-        associatedDiv.appendChild(link)
-
-        // Add comma separators if not last
-        if (index < Object.keys(entry.associatedWords).length - 1) {
-          associatedDiv.append(", ")
-        }
-      })
-
-      entryDiv.appendChild(associatedDiv)
-    }
 
     return entryDiv
   }
 
   generateDeclension(word) {
-    // Define verb types
     const verbTypes = [
       {
         type: "Type I",
         endings: ["e"],
-        description: `Type I verbs are identified by the ending letter 'e'. Type I words are classified as strong verbs, as they are what the other verb types are based on.`,
+        description:
+          "Type I verbs are identified by the ending letter 'e'. Type I words are classified as strong verbs.",
         generate: (stem, fullWord) => [
           { form: "Simple", past: stem + "en", present: fullWord, future: "wes " + fullWord },
           { form: "Continuous", past: "", present: stem + "rai", future: "wes " + stem + "ai" },
           { form: "Perfect", past: "her " + stem + "en", present: "her " + fullWord, future: "" },
-          { form: "Perfect Continuous", past: "her " + stem + "aien", present: "her " + stem + "aien", future: "" }
-        ]
+          { form: "Perfect Continuous", past: "her " + stem + "aien", present: "her " + stem + "aien", future: "" },
+        ],
       },
       {
         type: "Type II",
         endings: ["ae"],
-        description: `Type II verbs are identified by the ending 'ae'. Type II verbs are thought of as strong verbs, as their suffix keeps most of its form throughout conjugation.`,
-        generate: (stem, fullWord, ending) => {
-          return [
-            { form: "Simple", past: stem + "n", present: fullWord, future: "wes " + fullWord },
-            { form: "Continuous", past: "", present: stem + "ai", future: "wes " + stem + "ai" },
-            { form: "Perfect", past: "her " + stem + "aen", present: "her " + fullWord, future: "" },
-            { form: "Perfect Continuous", past: "her " + stem + "aien", present: "her " + stem + "aien", future: "" }
-          ];
-        }
+        description: "Type II verbs are identified by the ending 'ae'. Type II verbs are thought of as strong verbs.",
+        generate: (stem, fullWord) => [
+          { form: "Simple", past: stem + "n", present: fullWord, future: "wes " + fullWord },
+          { form: "Continuous", past: "", present: stem + "ai", future: "wes " + stem + "ai" },
+          { form: "Perfect", past: "her " + stem + "aen", present: "her " + fullWord, future: "" },
+          { form: "Perfect Continuous", past: "her " + stem + "aien", present: "her " + stem + "aien", future: "" },
+        ],
       },
       {
         type: "Type IV",
         endings: ["i"],
-        description: `Type IV words end in 'i'. Type IV verbs are thought of as strong verbs, as their suffix keeps most of its form throughout conjugation.`,
+        description: "Type IV words end in 'i'. Type IV verbs are thought of as strong verbs.",
         generate: (stem, fullWord) => [
           { form: "Simple", past: stem + "in", present: fullWord, future: "wes " + fullWord },
           { form: "Continuous", past: "", present: stem + "ai", future: "wes " + stem + "ai" },
           { form: "Perfect", past: "her " + stem + "in", present: "her " + fullWord, future: "" },
-          { form: "Perfect Continuous", past: "her " + stem + "aien", present: "her " + stem + "aien", future: "" }
-        ]
+          { form: "Perfect Continuous", past: "her " + stem + "aien", present: "her " + stem + "aien", future: "" },
+        ],
       },
       {
         type: "Type V",
         endings: ["a"],
-        description: `Type V verbs end in 'a', and are primarily Germanic but can also be found in Latin verbs.`,
+        description: "Type V verbs end in 'a', and are primarily Germanic but can also be found in Latin verbs.",
         generate: (stem, fullWord) => [
           { form: "Simple", past: stem + "ah", present: fullWord, future: "wes " + fullWord },
           { form: "Continuous", past: "", present: stem + "ai", future: "wes " + stem + "ai" },
           { form: "Perfect", past: "her " + stem + "an", present: "her " + fullWord, future: "" },
-          { form: "Perfect Continuous", past: "her " + stem + "aien", present: "her " + stem + "aien", future: "" }
-        ]
+          { form: "Perfect Continuous", past: "her " + stem + "aien", present: "her " + stem + "aien", future: "" },
+        ],
       },
       {
         type: "Type VI",
         endings: ["o"],
-        description: `Type VI verbs end in 'o', and are primarily Latin. These are rare but found in newer Latin words.`,
+        description:
+          "Type VI verbs end in 'o', and are primarily Latin. These are rare but found in newer Latin words.",
         generate: (stem, fullWord) => [
           { form: "Simple", past: stem + "en", present: fullWord, future: "wes " + fullWord },
           { form: "Continuous", past: "", present: stem + "ai", future: "wes " + stem + "ai" },
           { form: "Perfect", past: "her " + stem + "en", present: "her " + fullWord, future: "" },
-          { form: "Perfect Continuous", past: "her " + stem + "aien", present: "her " + stem + "aien", future: "" }
-        ]
+          { form: "Perfect Continuous", past: "her " + stem + "aien", present: "her " + stem + "aien", future: "" },
+        ],
       },
       {
         type: "Type VII",
         endings: ["en"],
-        description: `Type VII words end in 'en', and are primarily Latin.`,
+        description: "Type VII words end in 'en', and are primarily Latin.",
         generate: (stem, fullWord) => [
           { form: "Simple", past: stem + "en", present: fullWord, future: "wes " + fullWord },
           { form: "Continuous", past: "", present: stem + "ai", future: "wes " + stem + "ai" },
           { form: "Perfect", past: "her " + stem + "enen", present: "her " + fullWord, future: "" },
-          { form: "Perfect Continuous", past: "her " + stem + "aien", present: "her " + stem + "aien", future: "" }
-        ]
+          { form: "Perfect Continuous", past: "her " + stem + "aien", present: "her " + stem + "aien", future: "" },
+        ],
       },
       {
         type: "Type III",
-        endings: ["b", "c", "d", "f", "g", "h", "k", "l", "m", "n", "p", "q", "r", "s", "t", "v", "w", "x", "y", "z"], 
-        description: `Type III words end in a consonant, but never with 'en'. These words are common in all kinds of verbs, primarily found in the new words.`,
+        endings: ["b", "c", "d", "f", "g", "h", "k", "l", "m", "n", "p", "q", "r", "s", "t", "v", "w", "x", "y", "z"],
+        description:
+          "Type III words end in a consonant, but never with 'en'. These words are common in all kinds of verbs.",
         generate: (stem, fullWord) => [
           { form: "Simple", past: stem + "en", present: fullWord, future: "wes " + fullWord },
           { form: "Continuous", past: "", present: stem + "ai", future: "wes " + stem + "ai" },
           { form: "Perfect", past: "her " + stem + "en", present: "her " + fullWord, future: "" },
-          { form: "Perfect Continuous", past: "her " + stem + "aien", present: "her " + stem + "aien", future: "" }
-        ]
-      }
-    ];
+          { form: "Perfect Continuous", past: "her " + stem + "aien", present: "her " + stem + "aien", future: "" },
+        ],
+      },
+    ]
 
-    // Find the first matching type
     for (const verbType of verbTypes) {
-      const endingMatched = verbType.endings.find(e => word.endsWith(e));
+      const endingMatched = verbType.endings.find((e) => word.endsWith(e))
       if (endingMatched) {
-        const stem = word.slice(0, -endingMatched.length);
-        const conjugation = verbType.generate(stem, word, endingMatched);
-        return { type: verbType.type, description: verbType.description, conjugation };
+        const stem = word.slice(0, -endingMatched.length)
+        const conjugation = verbType.generate(stem, word, endingMatched)
+        return { type: verbType.type, description: verbType.description, conjugation }
       }
     }
 
-    // Default if no type matches
     return {
       type: "Unknown",
       description: "No declension rules available for this word.",
-      conjugation: []
-    };
+      conjugation: [],
+    }
   }
 
   openDeclensionModal(entry) {
-    // Generate declension dynamically
-    const declension = this.generateDeclension(entry.sordish);
+    const declension = this.generateDeclension(entry.word)
+    const modal = document.getElementById("declensionModal")
+    const modalContent = document.getElementById("modalContent")
 
-    // Create overlay
-    const overlay = document.createElement("div");
-    overlay.className = "modal-overlay";
+    const rows = declension.conjugation
+      .map(
+        (c) => `
+            <tr>
+                <td>${c.form}</td>
+                <td>${c.past || "-"}</td>
+                <td>${c.present || "-"}</td>
+                <td>${c.future || "-"}</td>
+            </tr>
+        `,
+      )
+      .join("")
 
-    // Create modal
-    const modal = document.createElement("div");
-    modal.className = "modal";
+    modalContent.innerHTML = `
+            <h3>${entry.word} (${declension.type})</h3>
+            <p>${declension.description}</p>
+            <table class="declension-table">
+                <thead>
+                    <tr>
+                        <th>Form</th>
+                        <th>Past</th>
+                        <th>Present</th>
+                        <th>Future</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    ${rows}
+                </tbody>
+            </table>
+        `
 
-    // Build table rows
-    const rows = declension.conjugation.map(c => `
-      <tr>
-        <td>${c.form}</td>
-        <td>${c.past || ""}</td>
-        <td>${c.present || ""}</td>
-        <td>${c.future || ""}</td>
-      </tr>
-    `).join("");
-
-    // Set modal content
-    modal.innerHTML = `
-      <h3>${entry.sordish} (${declension.type})</h3>
-      <p>${declension.description}</p>
-      <table class="declension-table">
-        <thead>
-          <tr>
-            <th>Form</th>
-            <th>Past</th>
-            <th>Present</th>
-            <th>Future</th>
-          </tr>
-        </thead>
-        <tbody>
-          ${rows}
-        </tbody>
-      </table>
-      <button class="close-btn">Close</button>
-    `;
-
-    overlay.appendChild(modal);
-    document.body.appendChild(overlay);
-
-    // Close button
-    modal.querySelector(".close-btn").addEventListener("click", () => {
-      document.body.removeChild(overlay);
-    });
+    modal.classList.remove("hidden")
   }
 
   highlightMatch(text, query) {
-    if (!query) return text
-
+    if (!query || !text) return text
     const regex = new RegExp(`(${this.escapeRegex(query)})`, "gi")
     return text.replace(regex, '<span class="highlight">$1</span>')
   }
@@ -381,8 +325,8 @@ class ValdorianDictionary {
   }
 
   showWelcomeMessage() {
-    this.results.innerHTML = this.originalWelcomeHTML;
-    this.hideNoResults();
+    this.results.innerHTML = this.originalWelcomeHTML
+    this.hideNoResults()
   }
 
   showNoResults() {
@@ -406,15 +350,12 @@ class ValdorianDictionary {
     }
   }
 
-  updateButtonVisibility(value = true) {
+  updateButtonVisibility(showButton = true) {
     const hasSearch = this.searchInput.value.trim() !== ""
-
-    if (hasSearch || !value) {
-      // Hide button, show result count
+    if (hasSearch || !showButton) {
       this.showAllBtn.style.display = "none"
       this.resultCount.style.display = "inline"
     } else {
-      // Show button, hide result count
       this.showAllBtn.style.display = "inline-block"
       this.resultCount.style.display = "none"
     }
@@ -427,12 +368,100 @@ class ValdorianDictionary {
     this.updateButtonVisibility()
     this.searchInput.focus()
   }
-
 }
 
-// Initialize the dictionary when the page loads
+// Tab Navigation
+function initializeTabs() {
+  const tabBtns = document.querySelectorAll(".tab-btn")
+  const tabContents = document.querySelectorAll(".tab-content")
+
+  tabBtns.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const tabId = btn.dataset.tab
+
+      // Remove active class from all tabs and contents
+      tabBtns.forEach((b) => b.classList.remove("active"))
+      tabContents.forEach((c) => c.classList.remove("active"))
+
+      // Add active class to clicked tab and corresponding content
+      btn.classList.add("active")
+      document.getElementById(tabId).classList.add("active")
+    })
+  })
+}
+
+// Modal close functionality
+function initializeModal() {
+  const modal = document.getElementById("declensionModal")
+  const closeBtn = document.getElementById("closeModalBtn")
+
+  closeBtn.addEventListener("click", () => {
+    modal.classList.add("hidden")
+  })
+
+  modal.addEventListener("click", (e) => {
+    if (e.target === modal) {
+      modal.classList.add("hidden")
+    }
+  })
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && !modal.classList.contains("hidden")) {
+      modal.classList.add("hidden")
+    }
+  })
+}
+
+// Initialize everything when DOM is ready
 document.addEventListener("DOMContentLoaded", () => {
-  new ValdorianDictionary()
+  initializeTabs()
+  initializeModal()
+
+  // Initialize Sordish Dictionary
+  const sordishDictionary = {
+    word_entries: [
+      // Example entries for Sordish
+      {
+        sordish: "example",
+        english: "example",
+        pronunciation: "ex-ample",
+        part_of_speech: "noun",
+        definition: "A sample.",
+      },
+      // Add more entries as needed
+    ],
+  }
+  new ConlangDictionary("sordish", {
+    searchInputId: "sordishSearchInput",
+    clearBtnId: "sordishClearBtn",
+    showAllBtnId: "sordishShowAllBtn",
+    resultsId: "sordishResults",
+    noResultsId: "sordishNoResults",
+    resultCountId: "sordishResultCount",
+    dataSource: sordishDictionary,
+  })
+
+  // Initialize Rizian Dictionary
+  const rizianDictionary = {
+    word_entries: [
+      // Example entries for Rizian
+      {
+        rizian: "sample",
+        english: "sample",
+        pronunciation: "sam-ple",
+        part_of_speech: "noun",
+        definition: "A small amount.",
+      },
+      // Add more entries as needed
+    ],
+  }
+  new ConlangDictionary("rizian", {
+    searchInputId: "rizianSearchInput",
+    clearBtnId: "rizianClearBtn",
+    showAllBtnId: "rizianShowAllBtn",
+    resultsId: "rizianResults",
+    noResultsId: "rizianNoResults",
+    resultCountId: "rizianResultCount",
+    dataSource: rizianDictionary,
+  })
 })
-
-

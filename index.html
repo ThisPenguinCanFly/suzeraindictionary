@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sordish Dictionary</title>
+    <title>Conlang Dictionary</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -20,217 +20,333 @@
         </div>
     </header>
 
+    <!-- Tab Navigation -->
+    <nav class="tab-nav">
+        <div class="container">
+            <div class="tabs">
+                <button class="tab-btn active" data-tab="sordish-dict">Sordish Dictionary</button>
+                <button class="tab-btn" data-tab="rizian-dict">Rizian Dictionary</button>
+                <button class="tab-btn" data-tab="about-sordish">About Sordish</button>
+                <button class="tab-btn" data-tab="about-rizian">About Rizian</button>
+            </div>
+        </div>
+    </nav>
+
     <main class="main">
         <div class="container">
-            <div class="search-section">
-                <div class="search-container">
-                    <input 
-                        type="text" 
-                        id="searchInput" 
-                        class="search-input" 
-                        placeholder="Search in English or Sordish..."
-                        autocomplete="off"
-                    >
-                    <button id="clearBtn" class="clear-btn" title="Clear search">×</button>
+            <!-- Sordish Dictionary Tab -->
+            <div id="sordish-dict" class="tab-content active">
+                <div class="search-section">
+                    <div class="search-container">
+                        <input 
+                            type="text" 
+                            id="sordishSearchInput" 
+                            class="search-input" 
+                            placeholder="Search in English or Sordish..."
+                            autocomplete="off"
+                        >
+                        <button id="sordishClearBtn" class="clear-btn" title="Clear search">&times;</button>
+                    </div>
+                    <div class="search-controls">
+                        <div class="search-info">
+                            <span id="sordishResultCount" class="result-count"></span>
+                            <button id="sordishShowAllBtn" class="show-all-btn sordish">Show All Words</button>
+                        </div>
+                    </div>
                 </div>
-
-                <div class="search-controls">
-                    <div class="search-info">
-                        <span id="resultCount" class="result-count"></span>
-                        <button id="showAllBtn" class="show-all-btn">Show All Words</button>
+                <div class="content">
+                    <div id="sordishResults" class="results">
+                        <div class="welcome-message">
+                            <h2>Welcome to the Sordish Dictionary</h2>
+                            <p>Discover the language of East Merkopa. Search for words in either English or Sordish to find translations, pronunciations, and meanings.</p>
+                        </div>
+                    </div>
+                    <div id="sordishNoResults" class="no-results hidden">
+                        <h3>No results found</h3>
+                        <p>Try searching with different terms or check your spelling.</p>
                     </div>
                 </div>
             </div>
 
-            <div class="content">
-                <div id="results" class="results">
-                    <div class="welcome-message">
-                        <h2>Welcome to the Sordish Dictionary</h2>
-                        <p>Discover the language of the East Merkopa. Search for words in either English or Sordish to find translations, pronunciations, and meanings.</p>
-                        <div class="language-info">
-                            <h3>About Sordish</h3>
-                            <p>Sordish is characterized by flowing consonants and melodic vowel combinations. The language emphasizes harmony with nature and spiritual connection.</p>
-                        </div>
-                        <div class="language-info">
-                            <h3>History</h3>
-                             <p>The Sordish language traces its origins back to the East Merkopan tribes, evolving over centuries into a refined cultural identity.</p>
-                        </div>
-                        <div class="language-info">
-                            <h3>Grammar</h3>
-                            <p>Sordish follows a grammar close to that of English and German, and is a fusional language. It has three grammatical genders.</p>
-                            <h4>Noun inflection</h4>
-                            <table class="phonology-table-vowels">
-                                <tr>
-                                    <th>Masculine</th>
-                                    <th>Feminine</th>
-                                    <th>Neuter</th>
-                                </tr>
-                                <tr>
-                                    <td>Start with a vowel<br/>end in <em>-ium</em> or <em>-ng</em></td>
-                                    <td>Start with a consonant<br/>end in a vowel</td>
-                                    <td>The rest are neuter. </td>
-                                </tr>
-                            </table>
-
-                            <table class="phonology-table-vowels">
-                                <tr>
-                                    <th></th>
-                                    <th>Singular</th>
-                                    <th>Plural</th>
-                                </tr>
-                                <tr>
-                                    <td>Masculine</td>
-                                    <td>alem (man)</td>
-                                    <td>alemes (men)</td>
-                                </tr>
-                               <tr>
-                                    <td>Feminine</td>
-                                    <td>waime (woman)</td>
-                                    <td>waimes (women)</td>
-                                </tr>
-                                <tr>
-                                    <td>Neuter</td>
-                                    <td>prosdenten (president)</td>
-                                    <td>prosdentene (presidents)</td>
-                                </tr>
-                            </table>
-                            <p> 
-                                Possessivity is expressed with the suffix <em>-s</em>, as in <em>mastium</em> “master”, <em>mastiums</em> “master’s”.
-                            </p>
-
-                            <h4>Verb Inflection</h4>
-                        </div>
-                        <div class="language-info">
-                            <h3>Phonology</h3>
-                            <p>Sordish phonology is based on Latin and Proto-Germanic influence.</p>
-                            <h4>Vowels</h4>
-                            <table class="phonology-table-vowels">
-                                  <colgroup>
-                                    <col style="width: 20%;">
-                                    <col style="width: 26.6%;">
-                                    <col style="width: 26.6%;">
-                                    <col style="width: 26.6%;">
-                                </colgroup>
-                                <tr class="phonology-table-vowels">
-                                    <th class="phonology-table-vowels"></th>
-                                    <th class="phonology-table-vowels">Front unrounded</th>
-                                    <th class="phonology-table-vowels">Back-central unrounded</th>
-                                    <th class="phonology-table-vowels">Back rounded</th>
-                                </tr>
-                                <tr class="phonology-table-vowels">
-                                    <td class="phonology-table-vowels">Close</td>
-                                    <td class="phonology-table-vowels">i, i:</td>
-                                    <td class="phonology-table-vowels"></td>
-                                    <td class="phonology-table-vowels">u, u:</td>
-                                </tr>
-                                <tr class="phonology-table-vowels">
-                                    <td class="phonology-table-vowels">Mid</td>
-                                    <td class="phonology-table-vowels">e, e:</td>
-                                    <td class="phonology-table-vowels"></td>
-                                    <td class="phonology-table-vowels">ɔ, ɔː</td>
-                                </tr>
-                                <tr class="phonology-table-vowels">
-                                    <td class="phonology-table-vowels">Open</td>
-                                    <td class="phonology-table-vowels"></td>
-                                    <td class="phonology-table-vowels">ɑ, ɑː</td>
-                                    <td class="phonology-table-vowels"></td>
-                                </tr>
-                            </table>
-                            <h4>Consonants</h4>
-                            <table class="phonology-table-consonants">
-                                <tr class="phonology-table-consonants">
-                                    <th class="phonology-table-consonants"></th>
-                                    <th class="phonology-table-consonants">Labial</th>
-                                    <th class="phonology-table-consonants">Labiodental</th>
-                                    <th class="phonology-table-consonants">Dental</th>
-                                    <th class="phonology-table-consonants">Alveolar</th>
-                                    <th class="phonology-table-consonants">Palatal</th>
-                                    <th class="phonology-table-consonants">Velar plain</th>
-                                    <th class="phonology-table-consonants">Velar labialized</th>
-                                    <th class="phonology-table-consonants">Glottal</th>
-                                </tr>
-                                <tr class="phonology-table-consonants">
-                                    <td class="phonology-table-consonants">Nasal</td>
-                                    <td class="phonology-table-consonants">m</td>
-                                    <td class="phonology-table-consonants"></td>
-                                    <td class="phonology-table-consonants">n</td>
-                                    <td class="phonology-table-consonants"></td>
-                                    <td class="phonology-table-consonants"></td>
-                                    <td class="phonology-table-consonants">ŋ</td>
-                                    <td class="phonology-table-consonants"></td>
-                                    <td class="phonology-table-consonants"></td>
-                                </tr>
-                                <tr class="phonology-table-consonants">
-                                    <td class="phonology-table-consonants">Plosive</td>
-                                    <td class="phonology-table-consonants">p, b</td>
-                                    <td class="phonology-table-consonants"></td>
-                                    <td class="phonology-table-consonants">t, d</td>
-                                    <td class="phonology-table-consonants"></td>
-                                    <td class="phonology-table-consonants"></td>
-                                    <td class="phonology-table-consonants">k, g</td>
-                                    <td class="phonology-table-consonants">kʷ, (gʷ)</td>
-                                    <td class="phonology-table-consonants"></td>
-                                </tr>
-                                <tr class="phonology-table-consonants">
-                                    <td class="phonology-table-consonants">Fricative</td>
-                                    <td class="phonology-table-consonants">(ɸʷ)</td>
-                                    <td class="phonology-table-consonants">fʷ, v</td>
-                                    <td class="phonology-table-consonants">s, (z)</td>
-                                    <td class="phonology-table-consonants">(ʃ)</td>
-                                    <td class="phonology-table-consonants"></td>
-                                    <td class="phonology-table-consonants"></td>
-                                    <td class="phonology-table-consonants"></td>
-                                    <td class="phonology-table-consonants">h</td>
-                                </tr>
-                                <tr class="phonology-table-consonants">
-                                    <td class="phonology-table-consonants">Approximant</td>
-                                    <td class="phonology-table-consonants">w</td>
-                                    <td class="phonology-table-consonants"></td>
-                                    <td class="phonology-table-consonants"></td>
-                                    <td class="phonology-table-consonants">l</td>
-                                    <td class="phonology-table-consonants"></td>
-                                    <td class="phonology-table-consonants"></td>
-                                    <td class="phonology-table-consonants"></td>
-                                    <td class="phonology-table-consonants"></td>
-                                </tr>
-                                <tr class="phonology-table-consonants">
-                                    <td class="phonology-table-consonants">Trill</td>
-                                    <td class="phonology-table-consonants"></td>
-                                    <td class="phonology-table-consonants"></td>
-                                    <td class="phonology-table-consonants"></td>
-                                    <td class="phonology-table-consonants">r</td>
-                                    <td class="phonology-table-consonants"></td>
-                                    <td class="phonology-table-consonants"></td>
-                                    <td class="phonology-table-consonants"></td>
-                                    <td class="phonology-table-consonants"></td>
-                                </tr>
-                                <tr class="phonology-table-consonants">
-                                    <td class="phonology-table-consonants">Trill</td>
-                                    <td class="phonology-table-consonants"></td>
-                                    <td class="phonology-table-consonants"></td>
-                                    <td class="phonology-table-consonants">	ts</td>
-                                    <td class="phonology-table-consonants">(dz)</td>
-                                    <td class="phonology-table-consonants"></td>
-                                    <td class="phonology-table-consonants"></td>
-                                    <td class="phonology-table-consonants"></td>
-                                    <td class="phonology-table-consonants"></td>
-                                </tr>
-                            </table>
-                        </div>
-                        <div class="language-info">
-                            <h3>Alphabeth</h3>
-                            <p>The written form uses a unique alphabet adapted from ancient Merkopan runes, blending tradition with modern expression.</p>
-                        </div>
-                        <div class="language-info">
-                            <h3>Morphology</h3>
-                            <p>Its morphology features rich inflection and word-building mechanisms, allowing nuanced meaning and expression.</p>
+            <!-- Rizian Dictionary Tab -->
+            <div id="rizian-dict" class="tab-content">
+                <div class="search-section">
+                    <div class="search-container">
+                        <input 
+                            type="text" 
+                            id="rizianSearchInput" 
+                            class="search-input rizian-input" 
+                            placeholder="Search in English or Rizian..."
+                            autocomplete="off"
+                        >
+                        <button id="rizianClearBtn" class="clear-btn" title="Clear search">&times;</button>
+                    </div>
+                    <div class="search-controls">
+                        <div class="search-info">
+                            <span id="rizianResultCount" class="result-count"></span>
+                            <button id="rizianShowAllBtn" class="show-all-btn rizian">Show All Words</button>
                         </div>
                     </div>
                 </div>
+                <div class="content">
+                    <div id="rizianResults" class="results">
+                        <div class="welcome-message rizian-welcome">
+                            <h2>Welcome to the Rizian Dictionary</h2>
+                            <p>Explore the Rizian language. Search for words in either English or Rizian to find translations, pronunciations, and meanings.</p>
+                        </div>
+                    </div>
+                    <div id="rizianNoResults" class="no-results hidden">
+                        <h3>No results found</h3>
+                        <p>Try searching with different terms or check your spelling.</p>
+                    </div>
+                </div>
+            </div>
 
-                <div id="noResults" class="no-results hidden">
-                    <h3>No results found</h3>
-                    <p>Try searching with different terms or check your spelling.</p>
+            <!-- About Sordish Tab -->
+            <div id="about-sordish" class="tab-content">
+                <div class="about-content">
+                    <h2>About Sordish</h2>
+                    <div class="language-info">
+                        <h3>Overview</h3>
+                        <p>Sordish is characterized by flowing consonants and melodic vowel combinations. The language emphasizes harmony with nature and spiritual connection.</p>
+                    </div>
+                    <div class="language-info">
+                        <h3>History</h3>
+                        <p>The Sordish language traces its origins back to the East Merkopan tribes, evolving over centuries into a refined cultural identity.</p>
+                    </div>
+                    <div class="language-info">
+                        <h3>Grammar</h3>
+                        <p>Sordish follows a grammar close to that of English and German, and is a fusional language. It has three grammatical genders.</p>
+                        <h4>Noun inflection</h4>
+
+                        <div class="grammar-cards">
+                            <div class="card">
+                                <h5>Masculine</h5>
+                                <p>Start with a vowel<br>End in <em>-ium</em> or <em>-ng</em></p>
+                                <p><strong>Singular:</strong> alem <em>(man)</em></p>
+                                <p><strong>Plural:</strong> alemes <em>(men)</em></p>
+                            </div>
+
+                            <div class="card">
+                                <h5>Feminine</h5>
+                                <p>Start with a consonant<br>End in a vowel</p>
+                                <p><strong>Singular:</strong> waime <em>(woman)</em></p>
+                                <p><strong>Plural:</strong> waimes <em>(women)</em></p>
+                            </div>
+
+                            <div class="card">
+                                <h5>Neuter</h5>
+                                <p>All remaining nouns</p>
+                                <p><strong>Singular:</strong> prosdenten <em>(president)</em></p>
+                                <p><strong>Plural:</strong> prosdentene <em>(presidents)</em></p>
+                            </div>
+                        </div>
+
+                        <p>Possessivity is expressed with the suffix <em>-s</em>, as in <em>mastium</em> "master", <em>mastiums</em> "master's".</p>
+                        <h4>Verb Inflection</h4>
+                        <p>Verbs are conjugated based on their type (I-VII), determined by their ending. Click the "declension" button on any verb in the dictionary to see its full conjugation.</p>
+                    </div>
+                    <div class="language-info">
+                        <h3>Syntax</h3>
+
+                        <h4>Word Order</h4>
+                        <p>
+                            Sordish follows a word order similar to English: 
+                            <strong>Subject – Verb – Object</strong>.
+                        </p>
+
+                        <h4>Questions</h4>
+                        <p>
+                            Questions in Sordish can be formed by placing an interrogative word
+                            at the beginning of the sentence, or by using
+                            <strong>subject–auxiliary inversion</strong>.
+                        </p>
+
+                        <h4>Definite Articles and Definiteness</h4>
+                        <p>
+                            Sordish has a definite article for each grammatical gender.
+                            When a noun is definite, it is capitalized.
+                            Neutral and feminine articles may also be attached to the noun
+                            using an apostrophe.
+                        </p>
+
+                        <ul class="example-list">
+                            <li><em>Ely morgna wes core</em> — “And morning will come”</li>
+                            <li><em>Ely a Morgna wes core</em> — “And the morning will come”</li>
+                            <li><em>Ely a’Morgna wes core</em> — “And the morning will come”</li>
+                        </ul>
+                        </div>
+                    <div class="language-info">
+                        <h3>Phonology</h3>
+                        <p>Sordish phonology is based on Latin and Proto-Germanic influence.</p>
+                        <h4>Vowels</h4>
+                        <!--
+                        <table class="phonology-table-vowels">
+                            <colgroup>
+                                <col style="width: 20%;">
+                                <col style="width: 26.6%;">
+                                <col style="width: 26.6%;">
+                                <col style="width: 26.6%;">
+                            </colgroup>
+                            <tr>
+                                <th></th>
+                                <th>Front unrounded</th>
+                                <th>Back-central unrounded</th>
+                                <th>Back rounded</th>
+                            </tr>
+                            <tr>
+                                <td>Close</td>
+                                <td>i, i:</td>
+                                <td></td>
+                                <td>u, u:</td>
+                            </tr>
+                            <tr>
+                                <td>Mid</td>
+                                <td>e, e:</td>
+                                <td></td>
+                                <td>o, o:</td>
+                            </tr>
+                            <tr>
+                                <td>Open</td>
+                                <td></td>
+                                <td>a, a:</td>
+                                <td></td>
+                            </tr>
+                        </table>-->
+                    <div class="vowel-chart">
+                        <img src="Sordish_vowel_chart.svg" class="vowel-svg" alt="Sordish vowel chart">
+                    </div>
+                    <h4>Consonants</h4>
+                    <div class="phonology-table-wrapper">
+                        <table class="phonology-table-consonants">
+                            <tr>
+                                <th></th>
+                                <th>Labial</th>
+                                <th>Labiodental</th>
+                                <th>Dental</th>
+                                <th>Alveolar</th>
+                                <th>Palatal</th>
+                                <th>Velar</th>
+                                <th>Velar lab.</th>
+                                <th>Glottal</th>
+                            </tr>
+                            <tr>
+                                <td>Nasal</td>
+                                <td>m</td>
+                                <td></td>
+                                <td>n</td>
+                                <td></td>
+                                <td></td>
+                                <td>ng</td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Plosive</td>
+                                <td>p, b</td>
+                                <td></td>
+                                <td>t, d</td>
+                                <td></td>
+                                <td></td>
+                                <td>k, g</td>
+                                <td>kw, (gw)</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Fricative</td>
+                                <td>(ph)</td>
+                                <td>f, v</td>
+                                <td>s, (z)</td>
+                                <td>(sh)</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>h</td>
+                            </tr>
+                            <tr>
+                                <td>Approximant</td>
+                                <td>w</td>
+                                <td></td>
+                                <td></td>
+                                <td>l</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Trill</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>r</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Affricate</td>
+                                <td></td>
+                                <td></td>
+                                <td>ts</td>
+                                <td>(dz)</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="phonology-notes">
+                    <h4>Phonological Notes</h4>
+                    <ul>
+                        <li><strong>&lt;c&gt;</strong> is pronounced as <em>/ts/</em>.</li>
+                        <li><strong>&lt;ng&gt;</strong> is pronounced as <em>/ŋ/</em>.</li>
+                        <li><strong>&lt;nk&gt;</strong> may be pronounced as <em>/ŋk/</em> or <em>/nk/</em>.</li>
+                        <li><strong>&lt;sk&gt;</strong> may be pronounced as <em>/ʃk/</em> in more rural accents.</li>
+                        <li>
+                        <strong>&lt;kw&gt;</strong> is pronounced as <em>/kʷ/</em>, and
+                        <strong>&lt;gw&gt;</strong> as <em>/gʷ/</em>.
+                        </li>
+                        <li>
+                        <strong>&lt;q&gt;</strong> is pronounced as <em>/kʷ/</em> at the start and end of a word,
+                        but as <em>/gʷ/</em> in voiced environments.
+                        </li>
+                        <li>
+                        <strong>&lt;z&gt;</strong> is pronounced as <em>/dz/</em>, but may be <em>/z/</em> in
+                        Southern accents.
+                        </li>
+                        <li>
+                        <strong>&lt;f&gt;</strong> may be pronounced as <em>/ɸʷ/</em> in older dialects and
+                        <em>/fʷ/</em> in newer ones.
+                        </li>
+                        <li>
+                        <strong>&lt;t&gt;</strong>, <strong>&lt;d&gt;</strong>, and <strong>&lt;s&gt;</strong>
+                        are dental or retracted dental.
+                        </li>
+                    </ul>
+                    </div>
+                    </div>
+                    <div class="language-info">
+                        <h3>Alphabet</h3>
+                        <p>No writing system has been confirmed by the developers, but in the game the Latin alphabet is used. </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- About Rizian Tab -->
+            <div id="about-rizian" class="tab-content">
+                <div class="about-content rizian-about">
+                    <h2>About Rizian</h2>
+                    <div class="language-info rizian-info">
+                        <h3>Overview</h3>
+                        <p>Rizian is a constructed language currently in development. More information will be added as the language evolves.</p>
+                    </div>
+                    <div class="language-info rizian-info">
+                        <h3>Coming Soon</h3>
+                        <p>Grammar rules, phonology tables, and detailed linguistic information will be documented here as the language is developed.</p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -238,11 +354,20 @@
 
     <footer class="footer">
         <div class="container">
-            <p>&copy; 2025 Sordish Dictionary.</p>
+            <p>&copy; 2025 Conlang Dictionary. Sordish & Rizian Languages.</p>
         </div>
     </footer>
 
-    <script src="dictionary-data.js"></script>
+    <!-- Modal for verb declension -->
+    <div id="declensionModal" class="modal-overlay hidden">
+        <div class="modal">
+            <div id="modalContent"></div>
+            <button class="close-btn" id="closeModalBtn">Close</button>
+        </div>
+    </div>
+
+    <script src="sordish-data.js"></script>
+    <script src="rizian-data.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
