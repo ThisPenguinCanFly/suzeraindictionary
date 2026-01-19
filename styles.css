@@ -1,0 +1,905 @@
+:root {
+  /* Sordish colors (purple/amber) */
+  --sordish-primary: #4f2845;
+  --sordish-primary-dark: #3b284f;
+  --sordish-accent: #f9af3d;
+
+  /* Rizian colors (teal/coral) */
+  --rizian-primary: #1a5f5f;
+  --rizian-primary-dark: #134545;
+  --rizian-accent: #e07850;
+
+  /* Common colors */
+  --background: #150d10;
+  --text-primary: #ecdcab;
+  --text-secondary: #baa878;
+  --white: #ffffff;
+  --ui-black: #141414;
+  --ui-black-hover: #1e1e1e;
+
+  --body-font-color: #2c3e50;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Georgia", "Times New Roman", serif;
+  line-height: 1.6;
+  color: var(--body-font-color);
+  background: linear-gradient(135deg, var(--text-primary) 0%, var(--text-secondary) 100%);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.header {
+  background: linear-gradient(135deg, var(--sordish-primary-dark) 0%, var(--sordish-primary) 100%);
+  color: var(--sordish-accent);
+  padding: 1rem 0;
+  text-align: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.header-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.logo-svg {
+  width: 60px;
+  height: 60px;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+  transition: transform 0.3s ease;
+}
+
+.logo-svg:hover {
+  transform: scale(1.05);
+}
+
+.vowel-svg {
+  width: 300px;
+  height: 300px;
+}
+
+.title {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 0.25rem;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.subtitle {
+  font-size: 1rem;
+  opacity: 0.9;
+}
+
+.tab-nav {
+  background: var(--ui-black);
+  padding: 0;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.tabs {
+  display: flex;
+  gap: 0;
+  overflow-x: auto;
+}
+
+.tab-btn {
+  flex: 1;
+  padding: 1rem 1.5rem;
+  border: none;
+  background: transparent;
+  color: #999;
+  font-family: inherit;
+  font-size: 0.95rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border-bottom: 3px solid transparent;
+  white-space: nowrap;
+}
+
+.tab-btn:hover {
+  background: var(--ui-black-hover);
+  color: #ccc;
+}
+
+.tab-btn.active {
+  color: var(--sordish-accent);
+  border-bottom-color: var(--sordish-accent);
+  background: var(--ui-black-hover);
+}
+
+.tab-btn[data-tab="rizian-dict"].active,
+.tab-btn[data-tab="about-rizian"].active {
+  color: var(--rizian-accent);
+  border-bottom-color: var(--rizian-accent);
+}
+
+.main {
+  padding: 2rem 0;
+  flex: 1;
+}
+
+.tab-content {
+  display: none;
+}
+
+.tab-content.active {
+  display: block;
+}
+
+.search-section {
+  margin-bottom: 2rem;
+}
+
+.search-container {
+  position: relative;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.search-input {
+  width: 100%;
+  padding: 1rem 3rem 1rem 1.5rem;
+  font-size: 1.1rem;
+  border: 2px solid #ddd;
+  border-radius: 50px;
+  outline: none;
+  transition: all 0.3s ease;
+  background: white;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.search-input:focus {
+  border-color: var(--sordish-primary);
+  box-shadow: 0 4px 20px rgba(79, 40, 69, 0.2);
+}
+
+.search-input.rizian-input:focus {
+  border-color: var(--rizian-primary);
+  box-shadow: 0 4px 20px rgba(26, 95, 95, 0.2);
+}
+
+.clear-btn {
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  color: #999;
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+}
+
+.clear-btn:hover {
+  background: #f0f0f0;
+  color: #666;
+}
+
+.search-controls {
+  max-width: 600px;
+  margin: 1rem auto 0;
+  text-align: center;
+}
+
+.result-count {
+  color: #666;
+  font-style: italic;
+}
+
+.show-all-btn {
+  background: linear-gradient(135deg, var(--sordish-primary-dark) 0%, var(--sordish-primary) 100%);
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 25px;
+  font-size: 0.9rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+.show-all-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.show-all-btn.rizian {
+  background: linear-gradient(135deg, var(--rizian-primary-dark) 0%, var(--rizian-primary) 100%);
+}
+
+.results {
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.welcome-message {
+  padding: 2rem;
+  text-align: center;
+}
+
+.welcome-message h2 {
+  color: var(--sordish-primary);
+  margin-bottom: 1rem;
+  font-size: 2rem;
+}
+
+.welcome-message p {
+  margin-bottom: 1.5rem;
+  font-size: 1.1rem;
+  color: #555;
+}
+
+.rizian-welcome h2 {
+  color: var(--rizian-primary);
+}
+
+/* About Content */
+.about-content {
+  background: white;
+  border-radius: 10px;
+  padding: 2rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.about-content h2 {
+  color: var(--sordish-primary);
+  margin-bottom: 1.5rem;
+  font-size: 2rem;
+  text-align: center;
+}
+
+.rizian-about h2 {
+  color: var(--rizian-primary);
+}
+
+.language-info {
+  background: #f8f9fa;
+  padding: 1.5rem;
+  border-radius: 8px;
+  margin-bottom: 1.5rem;
+}
+
+.language-info h3 {
+  color: var(--sordish-primary);
+  margin-bottom: 0.5rem;
+}
+
+.language-info h4 {
+  color: var(--sordish-primary-dark);
+  margin: 1rem 0 0.5rem;
+}
+
+.rizian-info h3,
+.rizian-info h4 {
+  color: var(--rizian-primary);
+}
+
+.word-entry {
+  position: relative;
+  padding: 1.5rem;
+  border-bottom: 1px solid #eee;
+  transition: background-color 0.2s ease;
+  overflow: hidden;
+}
+
+.word-entry:hover {
+  background-color: #f8f9fa;
+}
+
+.word-entry:last-child {
+  border-bottom: none;
+}
+
+.word-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.conlang-word {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: var(--sordish-primary-dark);
+  position: relative;
+  cursor: pointer;
+}
+
+.conlang-word.rizian {
+  color: var(--rizian-primary-dark);
+}
+
+.root-tooltip {
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 0.2s ease-in-out;
+  position: absolute;
+  bottom: -1.5em;
+  left: 0;
+  background: #333;
+  color: white;
+  font-size: 0.5em;
+  padding: 3px 6px;
+  border-radius: 4px;
+  white-space: nowrap;
+  z-index: 10;
+}
+
+.conlang-word:hover .root-tooltip {
+  visibility: visible;
+  opacity: 1;
+}
+
+.pronunciation {
+  font-style: italic;
+  color: #888;
+  font-size: 1rem;
+}
+
+.part-of-speech {
+  color: white;
+  padding: 0.2rem 0.6rem;
+  border-radius: 15px;
+  font-size: 0.8rem;
+  font-weight: bold;
+}
+
+.part-of-speech.VERB {
+  background-color: #e74c3c;
+}
+.part-of-speech.NOUN {
+  background-color: #3498db;
+}
+.part-of-speech.ADJ {
+  background-color: #27ae60;
+}
+.part-of-speech.ADV {
+  background-color: #9b59b6;
+}
+.part-of-speech.pronoun {
+  background-color: #f39c12;
+}
+.part-of-speech.preposition {
+  background-color: #1abc9c;
+}
+.part-of-speech.conjunction {
+  background-color: #e67e22;
+}
+
+.origin {
+  background-color: #909090;
+  color: white;
+  padding: 0.2rem 0.6rem;
+  border-radius: 15px;
+  font-size: 0.8rem;
+  font-weight: bold;
+}
+
+.origin.sordish {
+  background-color: var(--sordish-primary);
+}
+.origin.north-merkopan {
+  background-color: var(--sordish-accent);
+  color: #333;
+}
+.origin.markian {
+  background-color: #e74c3c;
+}
+.origin.valgish {
+  background-color: #28ace4;
+}
+
+.english-translation {
+  font-size: 1.2rem;
+  color: var(--body-font-color);
+  margin-bottom: 0.5rem;
+}
+
+.definition {
+  color: #555;
+  line-height: 1.6;
+}
+
+.declension-btn {
+  font-family: "Georgia", Times, serif;
+  font-size: 0.8rem;
+  font-weight: bold;
+  padding: 0.2rem 0.6rem;
+  border-radius: 15px;
+  background: var(--ui-black);
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.declension-btn:hover {
+  background: var(--ui-black-hover);
+}
+
+.phonology-table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  margin: 1rem 0;
+}
+
+
+.phonology-table-vowels,
+.phonology-table-consonants {
+  border-collapse: collapse;
+  width: 100%;
+  max-width: 500px;
+  margin: 1rem auto;
+  font-size: 0.85rem;
+  color: var(--ui-black);
+  background: var(--text-primary);
+  table-layout: fixed;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.phonology-table-consonants {
+  border-collapse: collapse;
+  min-width: 700px;
+}
+
+.phonology-table-consonants th {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+}
+
+.phonology-table-vowels th,
+.phonology-table-consonants th {
+  background-color: var(--sordish-primary);
+  color: var(--text-primary);
+  font-weight: bold;
+  text-align: center;
+  padding: 0.5rem;
+  border: 1px solid var(--background);
+}
+
+.phonology-table-vowels td,
+.phonology-table-consonants td {
+  font-weight: bold;
+  padding: 0.5rem;
+  text-align: center;
+  border: 1px solid var(--background);
+  word-wrap: break-word;
+}
+
+.phonology-table-consonants th:first-child,
+.phonology-table-consonants td:first-child {
+  position: sticky;
+  left: 0;
+  z-index: 1;
+  background: var(--sordish-primary);
+  color: var(--text-primary);
+}
+
+.phonology-table-consonants th:first-child {
+  z-index: 3;
+}
+
+.phonology-notes {
+  background: #f8f9fa;
+  border: 1px solid var(--background);
+  border-radius: 8px;
+  padding: 1rem;
+  margin: 1rem 0;
+  font-size: 0.85rem;
+}
+
+.phonology-notes h4 {
+  margin-bottom: 0.5rem;
+  color: var(--sordish-primary-dark);
+}
+
+.phonology-notes ul {
+  list-style: none;
+  padding-left: 0;
+  margin: 0;
+}
+
+.phonology-notes li {
+  margin-bottom: 0.4rem;
+  line-height: 1.4;
+}
+
+.phonology-notes strong {
+  color: var(--sordish-primary);
+  font-weight: bold;
+}
+
+.phonology-notes em {
+  font-style: italic;
+}
+
+.no-results {
+  text-align: center;
+  padding: 3rem 2rem;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.no-results h3 {
+  color: var(--sordish-primary-dark);
+  margin-bottom: 1rem;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 8px;
+  max-width: 550px;
+  width: 90%;
+  max-height: 80vh;
+  overflow-y: auto;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.2);
+}
+
+.modal h3 {
+  margin-top: 0;
+  color: var(--sordish-primary);
+}
+
+.modal p {
+  color: #555;
+  margin-bottom: 1rem;
+}
+
+.declension-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1rem 0;
+}
+
+.declension-table th,
+.declension-table td {
+  border: 1px solid #ddd;
+  padding: 0.5rem;
+  text-align: left;
+}
+
+.declension-table th {
+  background: var(--sordish-primary);
+  color: white;
+}
+
+.close-btn {
+  margin-top: 1rem;
+  padding: 0.5rem 1rem;
+  background: #e74c3c;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background 0.2s ease;
+}
+
+.close-btn:hover {
+  background: #c0392b;
+}
+
+.footer {
+  background: linear-gradient(135deg, var(--sordish-primary-dark) 0%, var(--sordish-primary) 100%);
+  color: white;
+  text-align: center;
+  padding: 1.5rem 0;
+  margin-top: auto;
+}
+
+.highlight {
+  background-color: #fff3cd;
+  padding: 0.1rem 0.2rem;
+  border-radius: 3px;
+  font-weight: bold;
+}
+
+.grammar-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+}
+
+.card {
+  border: 1px solid #ccc;
+  padding: 1rem;
+  border-radius: 6px;
+  background: #fafafa;
+}
+
+.grammar-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+  margin: 1.5rem 0;
+}
+
+.grammar-cards .card {
+  background: var(--text-primary);
+  color: var(--ui-black);
+  border: 1px solid var(--background);
+  border-radius: 8px;
+  padding: 1rem;
+  font-size: 0.85rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.grammar-cards .card h5 {
+  margin: -1rem -1rem 0.5rem -1rem;
+  padding: 0.5rem;
+  background: var(--sordish-primary);
+  color: var(--text-primary);
+  text-align: center;
+  font-size: 0.9rem;
+  font-weight: bold;
+  border-bottom: 1px solid var(--background);
+}
+
+.grammar-cards .card p {
+  margin: 0;
+  line-height: 1.4;
+}
+
+.grammar-cards .card em {
+  font-style: italic;
+}
+
+.grammar-cards .card p strong {
+  color: var(--sordish-primary);
+}
+
+.example-list {
+  margin-top: 0.5rem;
+  padding-left: 1rem;
+  font-size: 0.85rem;
+}
+
+.example-list li {
+  margin-bottom: 0.4rem;
+}
+
+.example-list em {
+  font-style: italic;
+}
+
+.plural{
+  font-size: 1.4rem;
+  font-weight: bold;
+}
+
+.tooltip {
+  position: relative;
+  cursor: pointer; /* shows it's interactive */
+  display: inline-block;
+}
+
+/* Tooltip text (hidden by default) */
+.tooltip-text {
+  visibility: hidden;
+  width: max-content;
+  max-width: 200px;
+  background-color: #333;
+  color: #fff;
+  font-weight: normal;
+  text-align: center;
+  border-radius: 5px;
+  padding: 5px 8px;
+  position: absolute;
+  z-index: 100;
+  top: 125%; /* show above the element */
+  left: 50%;
+  transform: translateX(-50%);
+  opacity: 0;
+  transition: opacity 0.2s ease-in-out;
+  font-size: 0.85rem;
+}
+
+/* Tooltip arrow */
+.tooltip-text::after {
+  content: '';
+  position: absolute;
+  bottom: 100%; /* bottom of the tooltip */
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 5px;
+  border-style: solid;
+  border-color: #333 transparent transparent transparent;
+}
+
+/* Show the tooltip on hover */
+.tooltip:hover .tooltip-text {
+  visibility: visible;
+  opacity: 1;
+}
+
+@media (max-width: 768px) {
+  /* General container tightening */
+  .container {
+    padding: 0 12px;
+  }
+
+  /* Main vertical rhythm */
+  .main {
+    padding: 1rem 0;
+  }
+
+  /* Header */
+  .header {
+    padding: 0.75rem 0;
+  }
+
+  .title {
+    font-size: 1.6rem;
+  }
+
+  .subtitle {
+    font-size: 0.9rem;
+  }
+
+  /* Tabs */
+  .tab-btn {
+    padding: 0.6rem 0.8rem;
+    font-size: 0.85rem;
+  }
+
+  /* About content */
+  .about-content {
+    padding: 1.2rem;
+  }
+
+  .about-content h2 {
+    font-size: 1.6rem;
+    margin-bottom: 1rem;
+  }
+
+  /* Language info blocks */
+  .language-info {
+    padding: 0.9rem;
+    margin-bottom: 1rem;
+  }
+
+  .language-info h3 {
+    margin-bottom: 0.3rem;
+  }
+
+  .language-info h4 {
+    margin: 0.6rem 0 0.3rem;
+  }
+
+  /* Search */
+  .search-input {
+    padding: 0.7rem 2.5rem 0.7rem 1rem;
+    font-size: 1rem;
+  }
+
+  .search-controls {
+    margin-top: 0.5rem;
+  }
+
+  /* Results / cards */
+  .results {
+    border-radius: 8px;
+  }
+
+  .welcome-message {
+    padding: 1.2rem;
+  }
+
+  /* Word entries */
+  .word-entry {
+    padding: 1rem;
+  }
+
+  .conlang-word {
+    font-size: 1.3rem;
+  }
+
+  .english-translation {
+    font-size: 1.05rem;
+  }
+
+  /* Grammar cards */
+  .grammar-cards {
+    gap: 0.75rem;
+    margin: 1rem 0;
+  }
+
+  .grammar-cards .card {
+    padding: 0.75rem;
+  }
+
+  .grammar-cards .card h5 {
+    margin: -0.75rem -0.75rem 0.4rem -0.75rem;
+    padding: 0.4rem;
+    font-size: 0.85rem;
+  }
+
+  /* Tables */
+  .phonology-table-wrapper {
+    margin: 0.6rem 0;
+  }
+
+  .phonology-table-vowels,
+  .phonology-table-consonants {
+    font-size: 0.7rem;
+  }
+
+  .phonology-table-vowels th,
+  .phonology-table-vowels td,
+  .phonology-table-consonants th,
+  .phonology-table-consonants td {
+    padding: 0.25rem;
+  }
+
+  .phonology-notes {
+    padding: 0.75rem;
+    font-size: 0.8rem;
+  }
+
+  /* Modal */
+  .modal {
+    padding: 1rem;
+    max-height: 85vh;
+  }
+
+  .vowel-svg {
+    width: 250px;
+    height: 250px;
+  }
+
+  /* Footer */
+  .footer {
+    padding: 1rem 0;
+  }
+}
